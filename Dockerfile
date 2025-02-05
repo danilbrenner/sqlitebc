@@ -1,4 +1,4 @@
-FROM golang:1.23-alpine AS builder
+FROM --platform=$BUILDPLATFORM golang:1.23-alpine AS builder
 
 RUN apk add --no-cache git
 
@@ -12,7 +12,7 @@ COPY .. .
 
 RUN go build -o sqlitebc .
 
-FROM alpine:latest
+FROM --platform=$BUILDPLATFORM alpine:latest
 
 WORKDIR /app
 
