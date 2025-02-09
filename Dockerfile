@@ -1,6 +1,6 @@
 FROM --platform=$BUILDPLATFORM golang:1.23-alpine AS builder
 
-RUN apk add --no-cache git
+RUN apk add --no-cache git && apk add build-base && apk add gcc musl-dev
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ RUN go mod download
 
 COPY .. .
 
-RUN go build -o sqlitebc .
+RUN export CGO_ENABLED=1 && go build -o sqlitebc .
 
 FROM --platform=$BUILDPLATFORM alpine:latest
 
